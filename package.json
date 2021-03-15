@@ -1,0 +1,15 @@
+{
+  "name": "social-network-backend",
+  "version": "1.0.0",
+  "description": "Simple backend for a social network",
+  "main": "bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Duc Anh",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.0"
+  }
+}
