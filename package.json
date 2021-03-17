@@ -2,20 +2,25 @@
   "name": "social-network-backend",
   "version": "1.0.0",
   "description": "Simple backend for a social network",
-  "main": "bin/www",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/app"
+    "start": "nodemon server.js"
   },
   "type": "module",
   "author": "Duc Anh",
   "license": "MIT",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.11.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^4.4.1",
-    "mongoose": "^5.12.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
