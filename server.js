@@ -4,7 +4,7 @@ import os from "os";
 import app from "./server/app.js";
 
 const numCPUs = os.cpus().length;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const input = process.argv[2] || 0
 let numWorkers
 input === 0 ? numWorkers = numCPUs : numWorkers = input;

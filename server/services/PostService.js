@@ -23,7 +23,8 @@ class PostService {
   }
 
   async addPost(data) {
-    const { title, content, user } = data;
+    const { title, content, user, image } = data;
+    const createdAt = new Date().getTime()
     if (!title || !content || !user)
       throw new ErrorHandler(422, "Missing required parameters!");
     try {
@@ -35,6 +36,8 @@ class PostService {
           title,
           content,
           user,
+          createdAt,
+          image
         },
       });
     } catch (err) {
