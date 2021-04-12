@@ -19,6 +19,8 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
 
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'public')))
 app.use("/", routes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
