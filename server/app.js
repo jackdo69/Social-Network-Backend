@@ -5,14 +5,36 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import swaggerUi from "swagger-ui-express";
-
+import swaggerUI from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
 import routes from "./routes/index.js"; // All the routes
 import { handleError, ErrorHandler } from "./lib/error.js";
+(async () => {
+
+//Swagger setup
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Library API",
+      version: "1.0.0",
+      description: "Social Network API",
+    },
+    servers: [
+      {
+        url: "http://localhost:4000",
+      },
+    ],
+  },
+  apis: ["./server/routes/*.js"],
+};
+
+const specs = await swaggerJsDoc(options);
 
 //Using middlewares
 const app = express();
-import swaggerDocument from "../swagger.js";
+const port = process.env.PORT || 4000;
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(bodyParser.urlencoded({ extended: true })); //form -data / urlencoded
 app.use(bodyParser.json()); //json data
 app.use(helmet());
@@ -20,21 +42,8 @@ app.use(cors());
 app.use(morgan("dev"));
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/", routes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-//This endpoint just for testing the Nodejs Cluster implementation
-app.get("/getFibonacci", (req, res, next) => {
-  function fibonacci(n) {
-    if (n === 0 || n === 1) return n;
-    else return fibonacci(n - 1) + fibonacci(n - 2);
-  }
-
-  const input = req.body.input;
-  const value = fibonacci(input);
-  res.status(200).json({ result: value });
-});
 
 //Unknow route
 app.use((req, res, next) => {
@@ -47,4 +56,10 @@ app.use((err, req, res, next) => {
   handleError(err, res);
 });
 
-export default app;
+
+app.listen(port, () => {
+  console.log(`Server is listening on port: ${port}`);
+})
+})()
+
+

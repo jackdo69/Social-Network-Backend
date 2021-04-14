@@ -68,23 +68,7 @@ class PostService {
     }
   }
 
-  async deleteById(data) {
-    const { postId } = data;
-    if (!postId) throw new ErrorHandler(422, "Missing required parameters!");
-    try {
-      await client.delete({
-        id: postId,
-        index: "social_network",
-        type: "post",
-      });
-    } catch (err) {
-      console.log(err);
-      throw new ErrorHandler(500, "Internal server error!");
-    }
-  }
-
   async updateById(data) {
-    console.log(data);
     const { document, postId } = data;
     if (!document || !postId)
       throw new ErrorHandler(422, "Missing required parameters!");
@@ -106,6 +90,22 @@ class PostService {
       throw new ErrorHandler(500, "Internal server error!");
     }
   }
+
+  async deleteById(data) {
+    const { postId } = data;
+    if (!postId) throw new ErrorHandler(422, "Missing required parameters!");
+    try {
+      await client.delete({
+        id: postId,
+        index: "social_network",
+        type: "post",
+      });
+    } catch (err) {
+      console.log(err);
+      throw new ErrorHandler(500, "Internal server error!");
+    }
+  }
+
 }
 
 export default PostService;
