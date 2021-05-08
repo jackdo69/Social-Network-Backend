@@ -2,10 +2,9 @@
 import cluster from "cluster";
 import http from "http";
 import os from "os";
-import app from "./server/app.js";
+import { startApp } from "./server/app.js";
 
 const numCPUs = os.cpus().length;
-const port = process.env.PORT || 4000;
 const input = process.argv[2] || 0
 let numWorkers
 input === 0 ? numWorkers = numCPUs : numWorkers = input;
@@ -26,14 +25,8 @@ if (cluster.isMaster) {
 } else {
   // Workers can share any TCP connection
   // In this case it is an HTTP server
-  const server = http.createServer(app);
-  server.listen(port);
+  startApp()
   console.log(`Worker ${process.pid} started`);
-  server.on("listening", () => {
-    const addr = server.address();
-    const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-    console.log(`Listening on ${bind}`);
-  });
 
   cluster.on('message', () => {
     console.log(`New message on ${process.pid}`);

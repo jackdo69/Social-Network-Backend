@@ -12,10 +12,17 @@ class PostService {
         type: "post",
         size: size,
       });
-      return {
-        total: results.body.hits.hits.length,
-        posts: results.body.hits.hits,
-      };
+      const posts = results.body.hits.hits.map((item) => {
+        return {
+          id: item._id,
+          title: item._source.title,
+          content: item._source.content,
+          user: item._source.user,
+          createdAt: item._source.createdAt,
+          image: item._source.image,
+        };
+      });
+      return posts;
     } catch (err) {
       console.log(err);
       throw new ErrorHandler(500, "Internal server error!");
@@ -24,22 +31,24 @@ class PostService {
 
   async addPost(data) {
     const { title, content, user, image } = data;
-    const createdAt = new Date().getTime()
+    const createdAt = new Date().getTime();
     if (!title || !content || !user)
       throw new ErrorHandler(422, "Missing required parameters!");
     try {
+      const id = uuidv4();
       await client.create({
         index: "social_network",
         type: "post",
-        id: uuidv4(),
+        id: id,
         body: {
           title,
           content,
           user,
           createdAt,
-          image
+          image,
         },
       });
+      return { id, title, content, user, createdAt, image };
     } catch (err) {
       console.log(err);
       throw new ErrorHandler(500, "Internal server error!");
@@ -105,7 +114,6 @@ class PostService {
       throw new ErrorHandler(500, "Internal server error!");
     }
   }
-
 }
 
 export default PostService;

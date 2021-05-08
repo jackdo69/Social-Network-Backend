@@ -98,8 +98,10 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    await postService.addPost(req.body);
-    res.status(201).send({ message: "Post created successfully!" });
+    const result = await postService.addPost(req.body);
+    res
+      .status(201)
+      .send({ message: "Post created successfully!", result: result });
   } catch (e) {
     next(e);
   }
