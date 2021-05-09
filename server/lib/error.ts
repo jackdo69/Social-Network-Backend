@@ -1,14 +1,18 @@
+import { Response } from 'express';
 
+interface HttpError extends Error {
+  statusCode: number;
+}
 class ErrorHandler extends Error {
-  private statusCode
-  constructor(statusCode, message) {
+  public statusCode: number;
+  constructor(statusCode: number, message: string) {
     super(message);
     this.statusCode = statusCode;
     this.message = message;
   }
 }
 
-const handleError = (err, res) => {
+const handleError = (err: HttpError, res: Response) => {
   const { statusCode, message } = err;
   res.status(statusCode).json({
     status: "error",

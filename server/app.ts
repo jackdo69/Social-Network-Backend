@@ -1,7 +1,6 @@
 //Require necessary packages
 import express from "express";
 import path from "path";
-import bodyParser from "body-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
@@ -9,7 +8,9 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import routes from "./routes/index.js"; // All the routes
 import { handleError, ErrorHandler } from "./lib/error.js";
-const startApp = async () => {
+import session, {Store} from 'express-session'
+
+export const createApp = async (store : Store) => {
 
   //Swagger setup
   const options = {
@@ -33,37 +34,26 @@ const startApp = async () => {
 
   //Using middlewares
   const app = express();
-  const port = process.env.PORT || 4000;
+  const __dirname = path.resolve();
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-  app.use(bodyParser.urlencoded({ extended: true })); //form -data / urlencoded
-  app.use(bodyParser.json()); //json data
+  
+  app.use(express.urlencoded({ extended: true })); //form -data / urlencoded
+  
+  app.use(express.json()); //json data
+  
   app.use(helmet());
+  
   app.use(cors());
+  
   app.use(morgan("dev"));
 
-  const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "public")));
+
   app.use("/", routes);
 
-  //Unknow route
-  app.use((req, res, next) => {
-    const error = new ErrorHandler(404, "Page not found!");
-    next(error);
-  });
-
-  //Handling errors
-  app.use((err, req, res, next) => {
-    handleError(err, res);
-  });
+  return app;
+};
 
 
-  app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
-  })
-}
-
-startApp();
-
-export { startApp };
 
 

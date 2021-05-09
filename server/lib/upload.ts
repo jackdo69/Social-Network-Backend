@@ -4,7 +4,7 @@ import path from 'path';
 
 const __dirname = path.resolve(path.dirname(''));
 
-const maxSize = 2 * 1024 * 1024;
+const MAX_SIZE = 2 * 1024 * 1024;
 
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,7 +19,7 @@ let storage = multer.diskStorage({
 
 let uploadFile = multer({
   storage: storage,
-  limits: { fileSize: maxSize },
+  limits: { fileSize: MAX_SIZE },
 }).single("file");
 
 
