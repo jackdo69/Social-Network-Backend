@@ -1,4 +1,4 @@
-import client from "../data/elasticsearch.js";
+import client from "../lib/elasticsearch.js";
 import { v4 as uuidv4 } from "uuid";
 import { ErrorHandler } from "../lib/error.js";
 

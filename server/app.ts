@@ -51,6 +51,18 @@ export const createApp = async (store : Store) => {
 
   app.use("/", routes);
 
+
+  //Unknow route
+  app.use((req, res, next) => {
+    const error = new ErrorHandler(404, "Page not found!");
+    next(error);
+  });
+
+  //Handling errors
+  app.use((err, req, res, next) => {
+    handleError(err, res);
+  });
+
   return app;
 };
 

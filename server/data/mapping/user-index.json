@@ -1,0 +1,21 @@
+{
+    "settings": {
+      "number_of_shards": 1
+    },
+    "mappings": {
+      "properties": {
+        "username": {
+          "type": "text"
+        },
+        "image": {
+          "type": "date"
+        },
+        "email": {
+          "type": "text"
+        },
+        "password": {
+          "type": "text"
+        }
+      }
+    }
+  }
