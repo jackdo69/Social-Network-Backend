@@ -6,8 +6,8 @@ import helmet from "helmet";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-import routes from "./routes/index.js"; // All the routes
-import { handleError, ErrorHandler } from "./lib/error.js";
+import routes from "./routes"; // All the routes
+import { handleError, ErrorHandler } from "./lib/error";
 import session, {Store} from 'express-session'
 
 export const createApp = async (store : Store) => {

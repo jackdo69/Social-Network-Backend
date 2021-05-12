@@ -1,9 +1,9 @@
 import express from "express";
 const router = express.Router();
 
-import user from "./user.js";
-import post from "./post.js";
-import file from "./file.js";
+import user from "./user";
+import post from "./post";
+import file from "./file";
 
 router.use("/user", user);
 router.use("/post", post);

@@ -1,7 +1,7 @@
 import express from "express";
-import PostService from "../services/PostService.js";
+import PostController from "../controllers/PostController";
 
-const postService = new PostService();
+const Post = new PostController();
 
 /**
  * @swagger
@@ -26,6 +26,9 @@ const postService = new PostService();
  *          user:
  *            type: string
  *            description: The author of the post
+ *          createdAt:
+ *            type: string
+ *            description: The time when the post was created
  *        example:
  *            id: a1b2
  *            title: A rainy day
@@ -64,7 +67,7 @@ const router = express.Router();
  */
 router.get("/", async (req, res, next) => {
   try {
-    const result = await postService.getPost(req.query);
+    const result = await Post.getPost(req.query);
     res.status(200).send(result);
   } catch (e) {
     next(e);
@@ -98,7 +101,7 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const result = await postService.addPost(req.body);
+    const result = await Post.addPost(req.body);
     res
       .status(201)
       .send({ message: "Post created successfully!", result: result });
@@ -137,7 +140,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/search", async (req, res, next) => {
   try {
-    const result = await postService.searchPost(req.query);
+    const result = await Post.searchPost(req.query);
     res.status(200).send(result);
   } catch (e) {
     next(e);
@@ -180,7 +183,7 @@ router.put("/:postId", async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { document } = req.body;
-    await postService.updateById({ postId, document });
+    await Post.updateById({ postId, document });
     res.status(202).send({ message: "Post updated successfully!" });
   } catch (e) {
     next(e);
@@ -212,7 +215,7 @@ router.put("/:postId", async (req, res, next) => {
 
 router.delete("/:postId", async (req, res, next) => {
   try {
-    await postService.deleteById(req.params);
+    await Post.deleteById(req.params);
     res.status(202).send({ message: "Post deleted successfully!" });
   } catch (e) {
     next(e);

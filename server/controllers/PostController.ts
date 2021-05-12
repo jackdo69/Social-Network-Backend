@@ -1,17 +1,19 @@
-import client from "../lib/elasticsearch.js";
+import * as esClient from "../services/elasticsearch";
 import { v4 as uuidv4 } from "uuid";
-import { ErrorHandler } from "../lib/error.js";
+import { ErrorHandler } from "../lib/error";
 
-class PostService {
+class PostController {
   async getPost(data) {
     const { size } = data;
     if (!size) throw new ErrorHandler(422, "Missing required parameters!");
     try {
-      const results = await client.search({
-        index: "social_network",
-        type: "post",
-        size: size,
-      });
+      const results = await esClient.queryBySize(
+        "post",
+        {
+          from: 0,
+          size: size,
+        }
+      );
       const posts = results.body.hits.hits.map((item) => {
         return {
           id: item._id,
@@ -36,18 +38,17 @@ class PostService {
       throw new ErrorHandler(422, "Missing required parameters!");
     try {
       const id = uuidv4();
-      await client.create({
-        index: "social_network",
-        type: "post",
-        id: id,
-        body: {
+      await esClient.store(
+        "post",
+        id,
+        {
           title,
           content,
           user,
           createdAt,
           image,
         },
-      });
+      );
       return { id, title, content, user, createdAt, image };
     } catch (err) {
       console.log(err);
@@ -56,20 +57,16 @@ class PostService {
   }
 
   async searchPost(data) {
-    const { phrase } = data;
-    if (!phrase) throw new ErrorHandler(422, "Missing required parameters!");
+    const { phrase, field } = data;
+    if (!phrase || !field) throw new ErrorHandler(422, "Missing required parameters!");
     try {
-      const results = await client.search({
-        index: "social_network",
-        type: "post",
-        body: {
-          query: {
-            match: {
-              content: phrase,
-            },
-          },
+      const results = await esClient.searchByPhrase(
+        "post",
+        {
+          field,
+          phrase
         },
-      });
+      );
       return results.body.hits.hits;
     } catch (err) {
       console.log(err);
@@ -78,37 +75,35 @@ class PostService {
   }
 
   async updateById(data) {
-    const { document, postId } = data;
-    if (!document || !postId)
-      throw new ErrorHandler(422, "Missing required parameters!");
+    // const { document, postId } = data;
+    // if (!document || !postId)
+    //   throw new ErrorHandler(422, "Missing required parameters!");
 
-    try {
-      await client.update({
-        index: "social_network",
-        type: "post",
-        id: postId,
-        body: {
-          doc: {
-            title: document.title,
-            content: document.content,
-          },
-        },
-      });
-    } catch (err) {
-      console.log(err);
-      throw new ErrorHandler(500, "Internal server error!");
-    }
+    // try {
+    //   await client.update({
+    //     index: "social_network",
+    //     type: "post",
+    //     id: postId,
+    //     body: {
+    //       doc: {
+    //         title: document.title,
+    //         content: document.content,
+    //       },
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    //   throw new ErrorHandler(500, "Internal server error!");
+    // }
   }
 
   async deleteById(data) {
     const { postId } = data;
     if (!postId) throw new ErrorHandler(422, "Missing required parameters!");
     try {
-      await client.delete({
-        id: postId,
-        index: "social_network",
-        type: "post",
-      });
+      await esClient.remove(
+        "post", postId
+      );
     } catch (err) {
       console.log(err);
       throw new ErrorHandler(500, "Internal server error!");
@@ -116,4 +111,4 @@ class PostService {
   }
 }
 
-export default PostService;
+export default PostController;

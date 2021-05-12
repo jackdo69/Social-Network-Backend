@@ -1,0 +1,26 @@
+{
+  "$id": "post.json",
+  "title": "post",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "uniq ID of the post"
+    },
+    "content": {
+      "type": "string",
+      "description": "the content of the post"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "time post was created"
+    },
+    "user": {
+      "type": "string",
+      "description": "username of the author"
+    }
+  },
+  "required": ["id", "user"],
+  "$schema": "http://json-schema.org/draft-07/schema"
+}

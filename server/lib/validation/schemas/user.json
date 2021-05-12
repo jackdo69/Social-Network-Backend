@@ -1,0 +1,27 @@
+{
+  "$id": "user.json",
+  "title": "user",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "uniq ID of the user"
+    },
+    "username": {
+      "type": "string",
+      "description": "the username of the user"
+    },
+    "email": {
+      "type": "string",
+      "description": "user email",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "description": "user password"
+    }
+  },
+  "required": ["id", "user"],
+  "$schema": "http://json-schema.org/draft-07/schema"
+}

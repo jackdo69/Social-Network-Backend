@@ -7,14 +7,16 @@
     "prebuild": "rm -rf dist",
     "buid": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --transpileOnly --no-notify server"
+    "start": "ts-node-dev --transpile-only --no-notify server"
   },
   "type": "module",
   "author": "Duc Anh",
   "license": "MIT",
   "dependencies": {
     "@elastic/elasticsearch": "^7.11.0",
-    "@hapi/joi": "^17.1.1",
+    "ajv": "^8.3.0",
+    "ajv-formats": "^2.1.0",
+    "ajv-keywords": "^5.0.0",
     "connect-redis": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -31,7 +33,6 @@
     "@types/connect-redis": "0.0.16",
     "@types/express": "^4.17.11",
     "@types/express-session": "^1.17.3",
-    "@types/hapi__joi": "^17.1.6",
     "@types/ioredis": "^4.26.1",
     "@types/node": "^15.0.2",
     "ts-node-dev": "^1.1.6",
