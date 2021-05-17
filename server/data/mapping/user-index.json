@@ -1,8 +1,9 @@
 {
-    "settings": {
-      "number_of_shards": 1
-    },
-    "mappings": {
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "user": {
       "properties": {
         "username": {
           "type": "text"
@@ -19,3 +20,4 @@
       }
     }
   }
+}

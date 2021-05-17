@@ -7,10 +7,9 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import routes from "./routes"; // All the routes
-import { handleError, ErrorHandler } from "./lib/error";
-import session, {Store} from 'express-session'
+import { handleError, CustomError } from "./services/error-service";
 
-export const createApp = async (store : Store) => {
+export const createApp = async () => {
 
   //Swagger setup
   const options = {
@@ -34,17 +33,18 @@ export const createApp = async (store : Store) => {
 
   //Using middlewares
   const app = express();
+
   const __dirname = path.resolve();
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-  
+
   app.use(express.urlencoded({ extended: true })); //form -data / urlencoded
-  
+
   app.use(express.json()); //json data
-  
+
   app.use(helmet());
-  
+
   app.use(cors());
-  
+
   app.use(morgan("dev"));
 
   app.use(express.static(path.join(__dirname, "public")));
@@ -54,7 +54,7 @@ export const createApp = async (store : Store) => {
 
   //Unknow route
   app.use((req, res, next) => {
-    const error = new ErrorHandler(404, "Page not found!");
+    const error = new CustomError(404, "Page not found!");
     next(error);
   });
 

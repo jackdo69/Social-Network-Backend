@@ -3,7 +3,7 @@ import { Response } from 'express';
 interface HttpError extends Error {
   statusCode: number;
 }
-class ErrorHandler extends Error {
+class CustomError extends Error {
   public statusCode: number;
   constructor(statusCode: number, message: string) {
     super(message);
@@ -21,4 +21,4 @@ const handleError = (err: HttpError, res: Response) => {
   });
 };
 
-export { ErrorHandler, handleError };
+export { CustomError, handleError };

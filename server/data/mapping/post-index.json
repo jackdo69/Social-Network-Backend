@@ -3,21 +3,23 @@
     "number_of_shards": 1
   },
   "mappings": {
-    "properties": {
-      "content": {
-        "type": "text"
-      },
-      "createdAt": {
-        "type": "date"
-      },
-      "image": {
-        "type": "text"
-      },
-      "title": {
-        "type": "text"
-      },
-      "user": {
-        "type": "text"
+    "post": {
+      "properties": {
+        "content": {
+          "type": "text"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "image": {
+          "type": "text"
+        },
+        "title": {
+          "type": "text"
+        },
+        "user": {
+          "type": "text"
+        }
       }
     }
   }

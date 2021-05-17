@@ -1,7 +1,6 @@
 import express from "express";
-import PostController from "../controllers/PostController";
+import * as Post from "../controllers/post-controller";
 
-const Post = new PostController();
 
 /**
  * @swagger
@@ -65,14 +64,8 @@ const router = express.Router();
  *       500:
  *         description: Internal server error!
  */
-router.get("/", async (req, res, next) => {
-  try {
-    const result = await Post.getPost(req.query);
-    res.status(200).send(result);
-  } catch (e) {
-    next(e);
-  }
-});
+
+router.get('/', Post.getPost)
 
 /**
  * @swagger
@@ -99,16 +92,7 @@ router.get("/", async (req, res, next) => {
  *         description: Internal server error!
  */
 
-router.post("/", async (req, res, next) => {
-  try {
-    const result = await Post.addPost(req.body);
-    res
-      .status(201)
-      .send({ message: "Post created successfully!", result: result });
-  } catch (e) {
-    next(e);
-  }
-});
+router.post('/', Post.addPost)
 
 /**
  * @swagger
@@ -138,14 +122,7 @@ router.post("/", async (req, res, next) => {
  *            description: Internal server error!
  */
 
-router.get("/search", async (req, res, next) => {
-  try {
-    const result = await Post.searchPost(req.query);
-    res.status(200).send(result);
-  } catch (e) {
-    next(e);
-  }
-});
+router.get('/search', Post.searchPost)
 
 /**
  * @swagger
@@ -179,16 +156,7 @@ router.get("/search", async (req, res, next) => {
  *        description: Internal server error!
  */
 
-router.put("/:postId", async (req, res, next) => {
-  try {
-    const { postId } = req.params;
-    const { document } = req.body;
-    await Post.updateById({ postId, document });
-    res.status(202).send({ message: "Post updated successfully!" });
-  } catch (e) {
-    next(e);
-  }
-});
+router.put('/:postId', Post.updateById)
 
 /**
  * @swagger
@@ -213,12 +181,6 @@ router.put("/:postId", async (req, res, next) => {
  *        description: Internal server error!
  */
 
-router.delete("/:postId", async (req, res, next) => {
-  try {
-    await Post.deleteById(req.params);
-    res.status(202).send({ message: "Post deleted successfully!" });
-  } catch (e) {
-    next(e);
-  }
-});
+router.delete('/:postId', Post.deleteById)
+
 export default router;

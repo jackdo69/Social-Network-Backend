@@ -20,7 +20,15 @@ docker-compose up -d
 ./server/scripts/elasticsearch/setup.sh 
 
 # start the serve
-npm run dev 
+npm start
 
 
 ```
+
+## Checking the Redis store
+```sh
+    docker exec -it node-auth_cache_1 redis-cli -a secret
+
+    scan 0
+
+ ```

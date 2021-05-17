@@ -4,11 +4,6 @@ import http from "http";
 import os from "os";
 import { createApp } from "./server/app";
 
-import session from 'express-session';
-import connectRedis from 'connect-redis';
-import Redis from 'ioredis';
-import { REDIS_OPTIONS, APP_PORT } from './server/config';
-
 const numCPUs = os.cpus().length;
 const input = process.argv[2] || 0;
 let numWorkers;
@@ -29,12 +24,7 @@ input === 0 ? numWorkers = numCPUs : numWorkers = input;
   } else {
     // Workers can share any TCP connection
     // In this case it is an HTTP server
-    const RedisStore = connectRedis(session);
-
-    const client = new Redis(REDIS_OPTIONS);
-
-    const store = new RedisStore({ client });
-    await createApp(store);
+    await createApp();
     console.log(`Worker ${process.pid} started`);
 
     cluster.on('message', () => {
