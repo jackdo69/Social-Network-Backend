@@ -22,6 +22,6 @@
       "description": "user password"
     }
   },
-  "required": ["id", "user"],
+  "required": ["id", "username"],
   "$schema": "http://json-schema.org/draft-07/schema"
 }

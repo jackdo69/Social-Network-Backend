@@ -1,17 +1,15 @@
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../config';
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, TOKEN_EXPIRE } from '../config';
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
+import { CustomError } from "./error-service";
 
-enum type {
-    access = 'access',
-    refresh = 'refresh'
-}
-const generateToken = (type: type, username: string) => {
+
+const generateToken = (type: 'access' | 'refresh', username: string) => {
     switch (type) {
         case 'access':
-            return jwt.sign(username, ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            return jwt.sign({ username: username }, ACCESS_TOKEN_SECRET, { expiresIn: +TOKEN_EXPIRE });
         case 'refresh':
-            return jwt.sign(username, REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+            return jwt.sign({ username: username }, REFRESH_TOKEN_SECRET);
     }
 };
 
@@ -19,15 +17,10 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.status(401).json({
-        message: 'Unauthorized'
-    });
+    if (!token) return next(new CustomError(401, "Unauthorized!"));
 
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, username) => {
-        if (err) res.status(403).json({
-            message: 'Fobidden!'
-        });
-        req.body.username = username;
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, data) => {
+        if (err) return next(new CustomError(403, "Invalid access token!"));
         next();
     });
 };

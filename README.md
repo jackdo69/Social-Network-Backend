@@ -27,7 +27,7 @@ npm start
 
 ## Checking the Redis store
 ```sh
-    docker exec -it node-auth_cache_1 redis-cli -a secret
+    docker exec -it redis redis-cli
 
     scan 0
 
