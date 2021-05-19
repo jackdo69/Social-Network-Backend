@@ -1,12 +1,13 @@
 import express from "express";
 import * as Post from "../controllers/post-controller";
+import { authenticate } from '../services/auth-service';
 
 const router = express.Router();
 
-router.get('/', Post.getPost);
-router.post('/', Post.addPost);
-router.get('/search', Post.searchPost);
-router.put('/:postId', Post.updateById);
-router.delete('/:postId', Post.deleteById);
+router.get('/', authenticate, Post.getPost);
+router.post('/', authenticate, Post.addPost);
+router.get('/search', authenticate, Post.searchPost);
+router.put('/:postId', authenticate, Post.updateById);
+router.delete('/:postId', authenticate, Post.deleteById);
 
 export default router;
