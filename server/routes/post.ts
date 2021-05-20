@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', authenticate, Post.getPost);
 router.post('/', authenticate, Post.addPost);
 router.get('/search', authenticate, Post.searchPost);
-router.put('/:postId', authenticate, Post.updateById);
-router.delete('/:postId', authenticate, Post.deleteById);
+router.put('/:id', authenticate, Post.updateById);
+router.delete('/:id', authenticate, Post.deleteById);
 
 export default router;

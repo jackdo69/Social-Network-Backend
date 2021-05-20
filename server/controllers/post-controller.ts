@@ -80,34 +80,27 @@ const searchPost = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const updateById = async (req: Request, res: Response, next: NextFunction) => {
-  // const { document, postId } = data;
-  // if (!document || !postId)
-  //   throw new CustomError(422, "Missing required parameters!");
+  try {
+    const { content, title } = req.body;
+    const { id } = req.params;
+    const existedPost = await esClient.checkExist('post', id);
 
-  // try {
-  //   await client.update({
-  //     index: "social_network",
-  //     type: "post",
-  //     id: postId,
-  //     body: {
-  //       doc: {
-  //         title: document.title,
-  //         content: document.content,
-  //       },
-  //     },
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  //   throw new CustomError(500, "Internal server error!");
-  // }
+    if (!existedPost) return next(new CustomError(404, "Post not found!"));
+    const doc = { content, title };
+    await esClient.updateById('post', id, doc);
+    res.status(202).json({ message: "Update success!" });
+  } catch (err) {
+    console.log(err);
+    return next(new CustomError(500, "Internal server error!"));
+  }
 };
 
 const deleteById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { postId } = req.params;
-    if (!postId) return next(new CustomError(422, "Missing required parameters!"));
+    const { id } = req.params;
+    if (!id) return next(new CustomError(422, "Missing required parameters!"));
     await esClient.remove(
-      "post", postId
+      "post", id
     );
     res.status(202).send({ message: "Post deleted successfully!" });
   } catch (err) {

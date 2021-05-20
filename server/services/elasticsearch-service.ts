@@ -29,6 +29,21 @@ const searchBySingleField = async (index: string, body: { field: string, phrase:
     }
 };
 
+const updateById = async (index: string, id: string, doc: object) => {
+    const params: RequestParams.Update = {
+        type: index,
+        index,
+        id,
+        body: { doc }
+    };
+    try {
+        const result: ApiResponse = await client.update(params);
+        return result;
+    } catch (err) {
+        throw err;
+    }
+};
+
 const searchByMultipleFields = async (index: string, body: { phrase: string, fields: Array<string>; }) => {
     const { fields, phrase } = body;
     const queryFields = fields.map(field => {
@@ -83,12 +98,23 @@ const queryById = async (index: string, id: string) => {
     };
     try {
         const result: ApiResponse = await client.get(params);
-        return result.body.hits.hits;
+        return result.body._source;
     } catch (err) {
         throw err;
     }
 };
 
+const checkExist = async (index: string, id: string) => {
+    const params: RequestParams.Exists = {
+        index, id, type: index
+    };
+    try {
+        const result: ApiResponse = await client.exists(params);
+        return result.body;
+    } catch (err) {
+        throw err;
+    }
+};
 export {
-    store, searchBySingleField, remove, queryBySize, queryById, searchByMultipleFields
+    store, searchBySingleField, remove, queryBySize, queryById, searchByMultipleFields, updateById, checkExist
 };
