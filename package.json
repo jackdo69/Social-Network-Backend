@@ -7,7 +7,8 @@
     "prebuild": "rm -rf dist",
     "buid": "tsc",
     "test": "./node_modules/.bin/cucumber-js -p default",
-    "start": "ts-node-dev --transpile-only --no-notify server"
+    "start": "cross-env NODE_ENV=dev ts-node-dev --transpile-only --no-notify server",
+    "start:test": "cross-env NODE_ENV=test ts-node-dev --transpile-only --no-notify server"
   },
   "author": "Duc Anh",
   "license": "MIT",
@@ -16,7 +17,9 @@
     "ajv": "^8.3.0",
     "ajv-formats": "^2.1.0",
     "ajv-keywords": "^5.0.0",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "ioredis": "^4.27.2",

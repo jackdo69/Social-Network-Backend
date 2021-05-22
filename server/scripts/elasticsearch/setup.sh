@@ -1,9 +1,9 @@
 #!/bin/bash
 
 BASE=$(pwd)
-ENV=$1
+ENV="$1"
 
-if ["${ENV}" = "DEV"]; then
+if [[ "${ENV}" == "dev" ]]; then
     echo "setting up the indices for dev environment...."
     curl -X PUT http://localhost:9200/post -H 'Content-Type: application/json' -d "@${BASE}/server/data/mapping/post-index.json"
     curl -X PUT http://localhost:9200/user -H 'Content-Type: application/json' -d "@${BASE}/server/data/mapping/user-index.json"

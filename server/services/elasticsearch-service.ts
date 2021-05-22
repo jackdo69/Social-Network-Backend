@@ -15,7 +15,7 @@ const searchBySingleField = async (index: string, body: { field: string, phrase:
         index,
         body: {
             query: {
-                match: {
+                term: {
                     [field]: phrase
                 }
             }

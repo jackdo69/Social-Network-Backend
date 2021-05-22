@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ENV=$1
+ENV="$1"
 
-if ["${ENV}" = "DEV"]; then
+if [[ ${ENV} == "dev" ]]; then
     echo "clearing elastic for dev..."
     curl -XDELETE localhost:9200/post
     curl -XDELETE localhost:9200/user

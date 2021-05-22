@@ -3,13 +3,15 @@ import { v4 as uuidv4 } from "uuid";
 import { CustomError } from "../services/error-service";
 import { Request, Response, NextFunction } from 'express';
 
+const INDEX = process.env.NODE_ENV === 'dev' ? 'post' : 'post-test';
+
 const getPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { size } = req.query;
     if (!size) return next(new CustomError(422, "Missing required parameters!"));
 
     const results = await esClient.queryBySize(
-      "post",
+      INDEX,
       {
         from: 0,
         size: +size,
@@ -41,7 +43,7 @@ const addPost = async (req: Request, res: Response, next: NextFunction) => {
       return next(new CustomError(422, "Missing required parameters!"));
     const id = uuidv4();
     await esClient.store(
-      "post",
+      INDEX,
       id,
       {
         title,
@@ -66,7 +68,7 @@ const searchPost = async (req: Request, res: Response, next: NextFunction) => {
     const { phrase, field } = req.query;
     if (!phrase || !field) return next(new CustomError(422, "Missing required parameters!"));
     const results = await esClient.searchBySingleField(
-      "post",
+      INDEX,
       {
         field: JSON.stringify(field),
         phrase: JSON.stringify(phrase)
@@ -87,7 +89,7 @@ const updateById = async (req: Request, res: Response, next: NextFunction) => {
 
     if (!existedPost) return next(new CustomError(404, "Post not found!"));
     const doc = { content, title };
-    await esClient.updateById('post', id, doc);
+    await esClient.updateById(INDEX, id, doc);
     res.status(202).json({ message: "Update success!" });
   } catch (err) {
     console.log(err);
@@ -100,7 +102,7 @@ const deleteById = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id) return next(new CustomError(422, "Missing required parameters!"));
     await esClient.remove(
-      "post", id
+      INDEX, id
     );
     res.status(202).send({ message: "Post deleted successfully!" });
   } catch (err) {

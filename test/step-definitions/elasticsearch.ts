@@ -7,12 +7,12 @@ const exec = childProcess.execSync;
 class Elasticsearch {
     @before("Elasticsearch")
     public setupTestingIndices(): void {
-        exec('./server/scripts/elasticsearch/setup.sh TEST');
+        exec('./server/scripts/elasticsearch/setup.sh test');
     }
 
     @after("Elasticsearch")
     public clearTestingIndices(): void {
-        exec('./server/scripts/elasticsearch/clear.sh TEST');
+        exec('./server/scripts/elasticsearch/clear.sh test');
     }
 }
 

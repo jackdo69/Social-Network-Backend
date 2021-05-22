@@ -9,28 +9,33 @@ import { REDIS_OPTIONS, REDIS_EXPIRE, REFRESH_TOKEN_SECRET } from '../config';
 import jwt from 'jsonwebtoken';
 
 const redis = new Redis(REDIS_OPTIONS);
+const INDEX = process.env.NODE_ENV === 'dev' ? 'user' : 'user-test';
 
 const usernameExisted = async (username: string) => {
-  const results = await esClient.searchBySingleField('user', { field: 'username', phrase: username });
+  const results = await esClient.searchBySingleField(INDEX, { field: 'username', phrase: username });
   return !!results.length;
 };
 
 const emailExisted = async (email: string) => {
-  const results = await esClient.searchBySingleField('user', { field: 'email', phrase: email });
+  const results = await esClient.searchBySingleField(INDEX, { field: 'email', phrase: email });
   return !!results.length;
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, email, password } = req.body;
+    if (!username || !email || !password) return next(new CustomError(422, "Missing required parameters!"));
     const id = uuidv4();
     const registerUser = { id, username, email, password };
     validate('user.json', registerUser);
     const isUsernameExisted = await usernameExisted(username);
     const isEmailExisted = await emailExisted(email);
+    console.log('usernameExisted', isUsernameExisted);
+    console.log('emailExisted', isEmailExisted);
+    
     if (isUsernameExisted || isEmailExisted) return next(new CustomError(422, "The user already existed, please try to login instead!"));
     await esClient.store(
-      "user",
+      INDEX,
       id,
       {
         username, email, password
@@ -56,7 +61,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    const result = (await esClient.searchBySingleField('user', { field: 'username', phrase: username }));
+    const result = (await esClient.searchBySingleField(INDEX, { field: 'username', phrase: username }));
     if (!result.length) return next(new CustomError(401, "Invalid username or password!"));
     const existedUser = result[0]._source;
     if (!existedUser || existedUser.password !== password) return next(new CustomError(401, "Invalid username or password!"));
