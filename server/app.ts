@@ -4,6 +4,8 @@ import path from "path";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from '../swagger.json';
 import routes from "./routes"; // All the routes
 import { handleError, CustomError } from "./services/error-service";
 
@@ -24,6 +26,8 @@ export const createApp = async () => {
   app.use(morgan("dev"));
 
   app.use(express.static(path.join(__dirname, "public")));
+
+  app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use("/", routes);
 

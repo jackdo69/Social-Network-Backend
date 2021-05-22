@@ -17,7 +17,7 @@ npm i
 docker-compose up -d
 
 # set up elasticsearch
-./server/scripts/elasticsearch/setup.sh 
+./server/scripts/elasticsearch/setup.sh DEV
 
 # start the serve
 npm start

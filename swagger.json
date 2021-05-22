@@ -1,0 +1,252 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "security": {
+      "bearerAuth": []
+    }
+  },
+  "info": {
+    "version": "1.0.0",
+    "title": "Social Network API",
+    "description": "Allow CRUD of posts, authenticate and interact with users",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "Posts",
+      "description": "API for post in the system"
+    },
+    {
+      "name": "Auth",
+      "description": "API for getting and renew token"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/post/": {
+      "get": {
+        "parameters": [
+          {
+            "name": "",
+            "in": "query",
+            "required": true,
+            "description": "Number of posts you want to return",
+            "type": "integer"
+          }
+        ],
+        "security": {
+          "bearerAuth": []
+        },
+        "tags": ["Posts"],
+        "summary": "Get posts from the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Posts"],
+        "security": {
+          "bearerAuth": []
+        },
+        "summary": "Create a new post in system",
+        "requestBody": {
+          "description": "Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "422": {
+            "description": "Missing required parameters!"
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the post that we want to match",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "Update post with given ID",
+        "tags": ["Posts"],
+        "security": {
+          "bearerAuth": []
+        },
+        "requestBody": {
+          "description": "Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Post"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Post with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Update success!"
+          },
+          "404": {
+            "description": "Post not found!"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete post with given ID",
+        "tags": ["Posts"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Delete Post with id",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "security": {
+          "bearerAuth": []
+        },
+        "responses": {
+          "202": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "422": {
+            "description": "Missing required parameters!"
+          }
+        }
+      }
+    },
+    "/post/search": {
+      "parameters": [
+        {
+          "name": "phrase",
+          "in": "query",
+          "required": true,
+          "description": "Phrase you're searching",
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "in": "field",
+          "required": true,
+          "description": "The field you're searching",
+          "type": "string"
+        }
+      ],
+      "security": {
+        "bearerAuth": []
+      },
+      "responses": {
+        "202": {
+          "description": "OK",
+          "schema": {
+            "$ref": "#/definitions/id"
+          }
+        },
+        "422": {
+          "description": "Missing required parameters!"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "id": {
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "size": {
+      "type": "integer"
+    },
+    "phrase": {
+      "type": "string"
+    },
+    "field": {
+      "type": "string"
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "user": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer"
+        }
+      }
+    },
+    "Posts": {
+      "type": "array",
+      "properties": {
+        "post": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Post"
+          }
+        }
+      }
+    }
+  }
+}

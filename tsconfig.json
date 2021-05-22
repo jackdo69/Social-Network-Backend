@@ -1,12 +1,19 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 14",
   "compilerOptions": {
-    // "module": "commonjs",
+    "lib": ["es2020"],
+    "target": "ES2020",
+    "strict": false,
+    "module": "commonjs",
     "esModuleInterop": true,
-    "target": "ES2015",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "sourceMap": true,
+    // "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true
-  },
-  "lib": ["es2015"]
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true
+  }
 }
