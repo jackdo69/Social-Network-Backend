@@ -8,6 +8,11 @@ const store = async (index: string, id: string, body: object) => {
     await client.index(doc);
 };
 
+const bulk = async (index: string, body: Array<object>) => {
+    const data = body.map(doc => [{ index: { _index: index, _type: index } }, doc]).flat();
+    await client.bulk({ refresh: true, body: data });
+};
+
 const searchBySingleField = async (index: string, body: { field: string, phrase: string; }) => {
     const { field, phrase } = body;
     const params: RequestParams.Search = {
@@ -116,5 +121,5 @@ const checkExist = async (index: string, id: string) => {
     }
 };
 export {
-    store, searchBySingleField, remove, queryBySize, queryById, searchByMultipleFields, updateById, checkExist
+    store, searchBySingleField, remove, queryBySize, queryById, searchByMultipleFields, updateById, checkExist, bulk
 };

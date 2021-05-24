@@ -1,6 +1,6 @@
 # Social Network Backend
-    Simple backend running for social-network-frontend project
 
+    Simple backend running for social-network-frontend project
 
 ## Prerequisites
 
@@ -17,18 +17,33 @@ npm i
 docker-compose up -d
 
 # set up elasticsearch
-./server/scripts/elasticsearch/setup.sh DEV
+./server/scripts/elasticsearch/setup.sh dev
 
-# start the serve
+# start the service
 npm start
 
 
 ```
 
 ## Checking the Redis store
+
 ```sh
-    docker exec -it redis redis-cli
+# run command for redis in interactive mode
+docker exec -it redis redis-cli
 
-    scan 0
+scan 0
 
- ```
+```
+
+## Testing
+
+```sh
+# start the redis and elasticsearch
+docker-compose up -d
+
+# start the service in test mode
+npm start:test
+
+# run test in another terminal
+npm run test
+```

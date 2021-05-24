@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Harry Potter and the prisoner of Azkaban",
+    "content": "Harry reunited with his uncle",
+    "user": "J.K.Rowling",
+    "createdAt": 1621139492768,
+    "image": "http://localhost:4000/images/pic1.jpeg"
+  },
+  {
+    "title": "Going to Ha Long bay",
+    "content": "It was raining so we slept in hotel",
+    "user": "Kevin",
+    "createdAt": 1621136392768,
+    "image": "http://localhost:4000/images/pic2.jpeg"
+  },
+  {
+    "title": "Running marathon around Tay lake",
+    "content": "It was fun, should do it more often",
+    "user": "Jennifer",
+    "createdAt": 1621219492768,
+    "image": "http://localhost:4000/images/pic3.jpeg"
+  }
+]

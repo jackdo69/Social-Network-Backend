@@ -30,9 +30,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     validate('user.json', registerUser);
     const isUsernameExisted = await usernameExisted(username);
     const isEmailExisted = await emailExisted(email);
-    console.log('usernameExisted', isUsernameExisted);
-    console.log('emailExisted', isEmailExisted);
-    
     if (isUsernameExisted || isEmailExisted) return next(new CustomError(422, "The user already existed, please try to login instead!"));
     await esClient.store(
       INDEX,
