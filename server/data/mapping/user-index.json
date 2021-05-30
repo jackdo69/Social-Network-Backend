@@ -9,12 +9,15 @@
           "type": "text"
         },
         "image": {
-          "type": "date"
+          "type": "text"
         },
         "email": {
           "type": "text"
         },
         "password": {
+          "type": "text"
+        },
+        "friends": {
           "type": "text"
         }
       }
