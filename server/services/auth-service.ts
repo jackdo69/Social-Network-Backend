@@ -4,12 +4,12 @@ import { NextFunction, Request, Response } from 'express';
 import { CustomError } from "./error-service";
 
 
-const generateToken = (type: 'access' | 'refresh', username: string) => {
+const generateToken = (type: 'access' | 'refresh', userId: string) => {
     switch (type) {
         case 'access':
-            return jwt.sign({ username: username }, ACCESS_TOKEN_SECRET, { expiresIn: +TOKEN_EXPIRE });
+            return jwt.sign({ userId: userId }, ACCESS_TOKEN_SECRET, { expiresIn: +TOKEN_EXPIRE });
         case 'refresh':
-            return jwt.sign({ username: username }, REFRESH_TOKEN_SECRET);
+            return jwt.sign({ userId: userId }, REFRESH_TOKEN_SECRET);
     }
 };
 

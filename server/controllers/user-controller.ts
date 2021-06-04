@@ -13,6 +13,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     const result = await esClient.queryById(
       INDEX, id
     );
+    delete result.password
     res.status(200).send(result);
   } catch (err) {
     console.log(err);

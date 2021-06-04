@@ -40,8 +40,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     );
     //TODO do verify email
     //log user in
-    const accessToken = auth.generateToken('access', username);
-    const refreshToken = auth.generateToken('refresh', username);
+    const accessToken = auth.generateToken('access', id);
+    const refreshToken = auth.generateToken('refresh', id);
 
     //Store refresh token to redis
     redis.set(accessToken, refreshToken);
@@ -62,8 +62,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     if (!result.length) return next(new CustomError(401, "Invalid username or password!"));
     const existedUser = result[0]._source;
     if (!existedUser || existedUser.password !== password) return next(new CustomError(401, "Invalid username or password!"));
-    const accessToken = auth.generateToken('access', username);
-    const refreshToken = auth.generateToken('refresh', username);
+    const userId = result[0]._id;
+    const accessToken = auth.generateToken('access', userId);
+    const refreshToken = auth.generateToken('refresh', userId);
     redis.set(accessToken, refreshToken);
     redis.expire(accessToken, +REDIS_EXPIRE);
     res.status(202).json({ accessToken, refreshToken });
