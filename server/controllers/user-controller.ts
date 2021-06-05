@@ -31,7 +31,6 @@ const updateImage = async (req: Request, res: Response, next: NextFunction) => {
     await esClient.updateById(INDEX, id, doc);
     res.status(202).json({ message: "Image upload success!" });
   } catch (err) {
-    console.log('HIIIT',err);
     next(new CustomError(500, "Internal server error!"));
   }
 };

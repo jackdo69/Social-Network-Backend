@@ -4,6 +4,6 @@ import { authenticate } from '../services/auth-service';
 
 const router = express.Router();
 router.get("/:id", authenticate, User.getUser);
-router.post("/:id/updateImage", User.updateImage);
+router.put("/:id/updateImage", User.updateImage);
 
 export default router;
