@@ -10,3 +10,4 @@
 - [ ] Implement the socket and allow user to chat with each other
 - [ ] Set up ELK stack
 - [ ] Refactor code, apply strict typescript to all the files
+- [ ] Update all tests cases and all validation input

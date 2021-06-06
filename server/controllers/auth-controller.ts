@@ -48,7 +48,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     redis.expire(accessToken, +REDIS_EXPIRE);
     res.status(201).json({ accessToken, refreshToken });
   } catch (e) {
-    console.log(e);
+    if (e instanceof CustomError) return next(e);
     return next(new CustomError(500, "Internal server error!"));
   }
 

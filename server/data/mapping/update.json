@@ -1,0 +1,14 @@
+{
+    "properties": {
+      "user_info": {
+        "properties": {
+            "id": {
+              "type": "text"
+            },
+            "username": {
+              "type": "text"
+            }
+        }
+      }
+    }
+  }

@@ -10,7 +10,15 @@
     },
     "username": {
       "type": "string",
-      "description": "the username of the user"
+      "description": "the username of the user",
+      "allOf": [
+        {
+          "transform": ["trim"]
+        },
+        {
+          "minLength": 8
+        }
+      ]
     },
     "email": {
       "type": "string",
@@ -20,6 +28,11 @@
     "password": {
       "type": "string",
       "description": "user password"
+    }
+  },
+  "errorMessage": {
+    "properties": {
+      "username": "Username must be minimum characters"
     }
   },
   "required": ["id", "username"],

@@ -1,7 +1,4 @@
 {
-  "settings": {
-    "number_of_shards": 1
-  },
   "mappings": {
     "user": {
       "properties": {
@@ -18,7 +15,14 @@
           "type": "text"
         },
         "friends": {
-          "type": "text"
+          "properties": {
+            "username": {
+              "type": "text"
+            },
+            "id": {
+              "type": "text"
+            }
+          }
         }
       }
     }
