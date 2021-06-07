@@ -65,7 +65,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const userId = result[0]._id;
     const accessToken = auth.generateToken('access', userId);
     const refreshToken = auth.generateToken('refresh', userId);
-    redis.set(accessToken, refreshToken);
+    redis.set(refreshToken, accessToken);
     redis.expire(accessToken, +REDIS_EXPIRE);
     res.status(202).json({ accessToken, refreshToken });
   } catch (e) {
@@ -90,13 +90,12 @@ const renewToken = async (req: Request, res: Response, next: NextFunction) => {
 
   if (!accessToken) return next(new CustomError(401, "Unauthorized!"));
   if (!refreshToken) return next(new CustomError(422, "Missing refresh token!"));
-  const storedRefreshToken = await redis.get(accessToken);
-  if (!storedRefreshToken) return next(new CustomError(404, "Your refresh token has been expired!"));
-
-  if (storedRefreshToken !== refreshToken) return next(new CustomError(422, "Invalid refresh token!"));
+  const storedAccessToken = await redis.get(refreshToken);
+  if (!storedAccessToken) return next(new CustomError(404, "Your refresh token has been expired!"));
+  const decoded: any = jwt.decode(storedAccessToken);
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, data) => {
     if (err) return next(new CustomError(500, "Internal server error!"));
-    const freshAccessToken = auth.generateToken('access', data.username);
+    const freshAccessToken = auth.generateToken('access', decoded.userId);
     res.status(202).json({ accessToken: freshAccessToken });
   });
 };
