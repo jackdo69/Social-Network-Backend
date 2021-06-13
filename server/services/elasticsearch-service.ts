@@ -64,7 +64,7 @@ const searchByMultipleFields = async (index: string, body: { phrase: string, fie
         body: {
             query: {
                 bool: {
-                    mulst: queryFields
+                    must: queryFields
                 }
             }
         }
@@ -84,15 +84,23 @@ const remove = async (index: string, id: string) => {
     await client.delete(params);
 };
 
-const queryBySize = async (index: string, body: { size: number, from: number; }) => {
-    const { size, from } = body;
+const query = async (index: string, body: { size?: number, from?: number, fields?: Array<string>, bool?: object; }) => {
+    const { size, from, fields, bool } = body;
     const params: RequestParams.Search = {
-        index, size, from, type: index
+        index, type: index
     };
+    if (fields) {
+        params._source_include = fields;
+        // params._source = 'false';
+    }
+    if (bool) params.body = { query: { bool } };
+    if (size) params.size = size;
+    if (from) params.from = from;
     try {
         const result: ApiResponse = await client.search(params);
         return result.body.hits.hits;
     } catch (err) {
+        console.log(err.meta.body.error);
         throw err;
     }
 };
@@ -105,6 +113,7 @@ const queryById = async (index: string, id: string) => {
         const result: ApiResponse = await client.get(params);
         return result.body._source;
     } catch (err) {
+        console.log(err.meta.body.error);
         throw err;
     }
 };
@@ -172,16 +181,15 @@ const removeItemFromField = async (index: string, id: string, field: string, rem
         return result;
     } catch (err) {
         console.log(err.meta.body.error);
-        
         throw err;
     }
-}
+};
 
 export {
     store,
     searchBySingleField,
     remove,
-    queryBySize,
+    query,
     queryById,
     searchByMultipleFields,
     updateById,

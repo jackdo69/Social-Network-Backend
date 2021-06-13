@@ -24,7 +24,45 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getFriendsSuggestions = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    if (!id) return next(new CustomError(422, "Missing required parameters!"));
+    const user = await esClient.queryById(INDEX, id);
+    let bool;
+    if (user.friends && user.friends.length) {
+      bool = { must_not: [] };
+      bool.must_not = user.friends.map(f => {
+        return {
+          "term": {
+            "username": f.username
+          }
+        };
+      });
+      bool.must_not.push({
+        "term": {
+          "username": user.username
+        }
+      });
+    } else {
+      bool = { must_not: {} };
+      bool.must_not = {
+        "term": {
+          "username": user.username
+        }
+      };
+    };
 
+    const suggestFriends = await esClient.query(INDEX, {
+      size: 20,
+      from: 0,
+      bool,
+      fields: ['username', 'image']
+    });
+    res.status(202).json(suggestFriends);
+  } catch (e) {
+    console.log(e);
+    next(new CustomError(500, "Internal server error!"));
+  }
 };
 
 const sendFriendRequest = async (req: Request, res: Response, next: NextFunction) => {
@@ -103,5 +141,6 @@ export {
   getUserById,
   updateImage,
   sendFriendRequest,
-  respondFriendRequest
+  respondFriendRequest,
+  getFriendsSuggestions
 };

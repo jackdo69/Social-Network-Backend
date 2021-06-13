@@ -4,6 +4,7 @@ import { authenticate } from '../services/auth-service';
 
 const router = express.Router();
 router.get("/:id", authenticate, User.getUserById);
+router.get("/:id/getFriendsSuggestions", authenticate, User.getFriendsSuggestions);
 router.put("/:id/updateImage", authenticate, User.updateImage);
 router.post("/:id/sendFriendRequest", authenticate, User.sendFriendRequest);
 router.post("/:id/respondFriendRequest", authenticate, User.respondFriendRequest);

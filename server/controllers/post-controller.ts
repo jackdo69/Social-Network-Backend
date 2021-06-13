@@ -10,7 +10,7 @@ const getPost = async (req: Request, res: Response, next: NextFunction) => {
     const { size } = req.query;
     if (!size) return next(new CustomError(422, "Missing required parameters!"));
 
-    const results = await esClient.queryBySize(
+    const results = await esClient.query(
       INDEX,
       {
         from: 0,
