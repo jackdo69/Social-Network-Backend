@@ -3,7 +3,9 @@ import * as User from "../controllers/user-controller";
 import { authenticate } from '../services/auth-service';
 
 const router = express.Router();
-router.get("/:id", authenticate, User.getUser);
-router.put("/:id/updateImage", User.updateImage);
+router.get("/:id", authenticate, User.getUserById);
+router.put("/:id/updateImage", authenticate, User.updateImage);
+router.post("/:id/sendFriendRequest", authenticate, User.sendFriendRequest);
+router.post("/:id/respondFriendRequest", authenticate, User.respondFriendRequest);
 
 export default router;

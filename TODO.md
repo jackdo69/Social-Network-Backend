@@ -6,8 +6,8 @@
 - [x] Implement session authentication
 - [x] Rewrite the swagger
 - [x] Implement Unit & Contract test
-- [ ] Allow user to change avatar, add/remove friend, hash the user password
-- [ ] Implement the socket and allow user to chat with each other
+- [ ] Allow user to change avatar, add/remove friend, hash the user password, like other posts
+- [ ] Implement the socket and allow user to chat with each other and see who is online
 - [ ] Set up ELK stack
 - [ ] Refactor code, apply strict typescript to all the files
 - [ ] Update all tests cases and all validation input

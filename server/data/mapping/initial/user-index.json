@@ -20,7 +20,33 @@
         "postsLike": {
           "type": "integer"
         },
+        "notifications": {
+          "properties": {
+            "action": {
+              "type": "text"
+            },
+            "message": {
+              "type": "text"
+            },
+            "id": {
+              "type": "text"
+            },
+            "username": {
+              "type": "text"
+            }
+          }
+        },
         "friends": {
+          "properties": {
+            "username": {
+              "type": "text"
+            },
+            "id": {
+              "type": "text"
+            }
+          }
+        },
+        "requestSent": {
           "properties": {
             "username": {
               "type": "text"

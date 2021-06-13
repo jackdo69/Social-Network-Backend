@@ -120,6 +120,73 @@ const checkExist = async (index: string, id: string) => {
         throw err;
     }
 };
+//Append an item to a field if that field exist or create a new field and add the item
+const upsertItemIntoField = async (index: string, id: string, field: string, item: object) => {
+    const params: RequestParams.Update = {
+        index,
+        type: index,
+        id,
+        body: {
+            "script": {
+                "source": `if (ctx._source.containsKey(\"${field}\")) {
+                    ctx._source['${field}'].add(params.item);
+                } else {
+                    ctx._source['${field}'] = [params.item]
+                }`,
+                "lang": "painless",
+                "params": {
+                    "item": item
+                }
+            }
+        }
+    };
+
+    try {
+        const result: ApiResponse = await client.update(params);
+        return result;
+    } catch (err) {
+        throw err;
+    }
+};
+
+const removeItemFromField = async (index: string, id: string, field: string, removeIndex: string) => {
+    const params: RequestParams.Update = {
+        index,
+        type: index,
+        id,
+        body: {
+            "script": {
+                "source": `if (ctx._source.containsKey(\"${field}\")) {
+                    ctx._source['${field}'].remove(params.index)
+                }`,
+                "lang": "painless",
+                "params": {
+                    "index": removeIndex
+                }
+            }
+        }
+    };
+
+    try {
+        const result: ApiResponse = await client.update(params);
+        return result;
+    } catch (err) {
+        console.log(err.meta.body.error);
+        
+        throw err;
+    }
+}
+
 export {
-    store, searchBySingleField, remove, queryBySize, queryById, searchByMultipleFields, updateById, checkExist, bulk
+    store,
+    searchBySingleField,
+    remove,
+    queryBySize,
+    queryById,
+    searchByMultipleFields,
+    updateById,
+    checkExist,
+    bulk,
+    upsertItemIntoField,
+    removeItemFromField
 };

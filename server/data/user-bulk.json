@@ -1,7 +1,7 @@
 [
     {
         "username": "anna_6987",
-        "email": "anna_12@test.com",
+        "email": "anna_6987@test.com",
         "password": "password",
         "image": "http://localhost:4000/images/user-1.png",
         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
