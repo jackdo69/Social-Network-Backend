@@ -58,7 +58,14 @@ const getFriendsSuggestions = async (req: Request, res: Response, next: NextFunc
       bool,
       fields: ['username', 'image']
     });
-    res.status(202).json(suggestFriends);
+    const result = suggestFriends.map(f => {
+      return {
+        id: f._id,
+        username: f._source.username,
+        image: f._source.image
+      };
+    });
+    res.status(202).json(result);
   } catch (e) {
     console.log(e);
     next(new CustomError(500, "Internal server error!"));
@@ -76,7 +83,6 @@ const sendFriendRequest = async (req: Request, res: Response, next: NextFunction
       action: 'friendRequest',
       id,
       username: user.username,
-      message: `${user.username} sent you a friend request`
     };
     const friendRequest = {
       id: recipientId,
@@ -135,6 +141,18 @@ const updateImage = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getUserImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    if (!id) return next(new CustomError(422, "Missing required parameters!"));
+
+    const user = await esClient.queryById(INDEX, id);
+    res.status(200).send(user.image);
+  } catch (e) {
+    next(new CustomError(500, "Internal server error!"));
+  }
+};
+
 
 
 export {
@@ -142,5 +160,6 @@ export {
   updateImage,
   sendFriendRequest,
   respondFriendRequest,
-  getFriendsSuggestions
+  getFriendsSuggestions,
+  getUserImage
 };
