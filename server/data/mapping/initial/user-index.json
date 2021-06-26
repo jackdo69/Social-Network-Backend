@@ -1,59 +1,57 @@
 {
   "mappings": {
-    "user": {
-      "properties": {
-        "username": {
-          "type": "text"
-        },
-        "image": {
-          "type": "text"
-        },
-        "email": {
-          "type": "text"
-        },
-        "password": {
-          "type": "text"
-        },
-        "bio": {
-          "type": "text"
-        },
-        "postsLike": {
-          "type": "integer"
-        },
-        "notifications": {
-          "properties": {
-            "action": {
-              "type": "text"
-            },
-            "message": {
-              "type": "text"
-            },
-            "id": {
-              "type": "text"
-            },
-            "username": {
-              "type": "text"
-            }
+    "properties": {
+      "username": {
+        "type": "text"
+      },
+      "image": {
+        "type": "text"
+      },
+      "email": {
+        "type": "text"
+      },
+      "password": {
+        "type": "text"
+      },
+      "bio": {
+        "type": "text"
+      },
+      "postsLike": {
+        "type": "integer"
+      },
+      "notifications": {
+        "properties": {
+          "action": {
+            "type": "text"
+          },
+          "message": {
+            "type": "text"
+          },
+          "id": {
+            "type": "text"
+          },
+          "username": {
+            "type": "text"
           }
-        },
-        "friends": {
-          "properties": {
-            "username": {
-              "type": "text"
-            },
-            "id": {
-              "type": "text"
-            }
+        }
+      },
+      "friends": {
+        "properties": {
+          "username": {
+            "type": "text"
+          },
+          "id": {
+            "type": "text"
           }
-        },
-        "requestSent": {
-          "properties": {
-            "username": {
-              "type": "text"
-            },
-            "id": {
-              "type": "text"
-            }
+        }
+      },
+      "requestSent": {
+        "properties": {
+          "username": {
+            "type": "text"
+          },
+          "id": {
+            "type": "text"
           }
         }
       }

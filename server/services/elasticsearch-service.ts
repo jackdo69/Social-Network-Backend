@@ -90,7 +90,7 @@ const query = async (index: string, body: { size?: number, from?: number, fields
         index, type: index
     };
     if (fields) {
-        params._source_include = fields;
+        params._source_includes = fields;
         // params._source = 'false';
     }
     if (bool) params.body = { query: { bool } };

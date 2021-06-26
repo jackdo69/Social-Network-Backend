@@ -1,27 +1,25 @@
 {
   "mappings": {
-    "post": {
-      "properties": {
-        "content": {
-          "type": "text"
-        },
-        "createdAt": {
-          "type": "date"
-        },
-        "image": {
-          "type": "text"
-        },
-        "title": {
-          "type": "text"
-        },
-        "user": {
-          "properties": {
-            "id": {
-              "type": "text"
-            },
-            "username": {
-              "type": "text"
-            }
+    "properties": {
+      "content": {
+        "type": "text"
+      },
+      "createdAt": {
+        "type": "date"
+      },
+      "image": {
+        "type": "text"
+      },
+      "title": {
+        "type": "text"
+      },
+      "user": {
+        "properties": {
+          "id": {
+            "type": "text"
+          },
+          "username": {
+            "type": "text"
           }
         }
       }
