@@ -3,24 +3,23 @@ const client = new Client({ node: 'http://localhost:9200' });
 
 const store = async (index: string, id: string, body: object) => {
     const doc: RequestParams.Index = {
-        index, body, id, refresh: true, type: index
+        index, body, id, refresh: true
     };
     await client.index(doc);
 };
 
 const bulk = async (index: string, body: Array<object>) => {
-    const data = body.map(doc => [{ index: { _index: index, _type: index } }, doc]).flat();
+    const data = body.flatMap(doc => [{ index: { _index: index } }, doc]);
     await client.bulk({ refresh: true, body: data });
 };
 
 const searchBySingleField = async (index: string, body: { field: string, phrase: string; }) => {
     const { field, phrase } = body;
     const params: RequestParams.Search = {
-        type: index,
         index,
         body: {
             query: {
-                term: {
+                match: {
                     [field]: phrase
                 }
             }
@@ -30,13 +29,13 @@ const searchBySingleField = async (index: string, body: { field: string, phrase:
         const result: ApiResponse = await client.search(params);
         return result.body.hits.hits;
     } catch (err) {
+        console.log(err.meta.body.error);
         throw err;
     }
 };
 
 const updateById = async (index: string, id: string, doc: object) => {
     const params: RequestParams.Update = {
-        type: index,
         index,
         id,
         body: { doc }
@@ -53,13 +52,12 @@ const searchByMultipleFields = async (index: string, body: { phrase: string, fie
     const { fields, phrase } = body;
     const queryFields = fields.map(field => {
         return {
-            match: {
+            term: {
                 field: phrase
             }
         };
     });
     const params: RequestParams.Search = {
-        type: index,
         index,
         body: {
             query: {
@@ -79,7 +77,7 @@ const searchByMultipleFields = async (index: string, body: { phrase: string, fie
 
 const remove = async (index: string, id: string) => {
     const params: RequestParams.Delete = {
-        index, id, type: index
+        index, id
     };
     await client.delete(params);
 };
@@ -87,7 +85,7 @@ const remove = async (index: string, id: string) => {
 const query = async (index: string, body: { size?: number, from?: number, fields?: Array<string>, bool?: object; }) => {
     const { size, from, fields, bool } = body;
     const params: RequestParams.Search = {
-        index, type: index
+        index
     };
     if (fields) {
         params._source_includes = fields;
@@ -107,7 +105,7 @@ const query = async (index: string, body: { size?: number, from?: number, fields
 
 const queryById = async (index: string, id: string) => {
     const params: RequestParams.Get = {
-        index, id, type: index
+        index, id
     };
     try {
         const result: ApiResponse = await client.get(params);
@@ -120,7 +118,7 @@ const queryById = async (index: string, id: string) => {
 
 const checkExist = async (index: string, id: string) => {
     const params: RequestParams.Exists = {
-        index, id, type: index
+        index, id
     };
     try {
         const result: ApiResponse = await client.exists(params);
@@ -133,7 +131,6 @@ const checkExist = async (index: string, id: string) => {
 const upsertItemIntoField = async (index: string, id: string, field: string, item: object) => {
     const params: RequestParams.Update = {
         index,
-        type: index,
         id,
         body: {
             "script": {
@@ -161,7 +158,6 @@ const upsertItemIntoField = async (index: string, id: string, field: string, ite
 const removeItemFromField = async (index: string, id: string, field: string, removeIndex: string) => {
     const params: RequestParams.Update = {
         index,
-        type: index,
         id,
         body: {
             "script": {
