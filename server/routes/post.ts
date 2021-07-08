@@ -1,5 +1,5 @@
-import express from "express";
-import * as Post from "../controllers/post-controller";
+import express from 'express';
+import * as Post from '../controllers/post-controller';
 import { authenticate } from '../services/auth-service';
 
 const router = express.Router();

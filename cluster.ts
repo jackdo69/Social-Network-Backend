@@ -7,7 +7,7 @@ import { createApp } from "./server/app";
 const numCPUs = os.cpus().length;
 const input = process.argv[2] || 0;
 let numWorkers;
-input === 0 ? numWorkers = numCPUs : numWorkers = input;
+input === 0 ? (numWorkers = numCPUs) : (numWorkers = input);
 
 (async () => {
   if (cluster.isMaster) {
@@ -27,12 +27,8 @@ input === 0 ? numWorkers = numCPUs : numWorkers = input;
     await createApp();
     console.log(`Worker ${process.pid} started`);
 
-    cluster.on('message', () => {
+    cluster.on("message", () => {
       console.log(`New message on ${process.pid}`);
     });
   }
-
 })();
-
-
-

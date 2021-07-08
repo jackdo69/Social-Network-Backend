@@ -7,16 +7,18 @@ import user from '../data/schemas/user.json';
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv, ['date-time', 'email']);
 
-require('ajv-keywords')(ajv, ['transform',]);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('ajv-keywords')(ajv, ['transform']);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('ajv-errors')(ajv);
 
 ajv.addSchema(post);
 ajv.addSchema(user);
 
 export default function validate(id: string, payload) {
-    if (!ajv.validate(id, payload)) {
-        const errorMessage = ajv.errors[0].message;
+  if (!ajv.validate(id, payload)) {
+    const errorMessage = ajv.errors[0].message;
 
-        throw new CustomError(400, errorMessage);
-    }
+    throw new CustomError(400, errorMessage);
+  }
 }

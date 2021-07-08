@@ -56,3 +56,11 @@ npm start:test
 # run test in another terminal
 npm run test
 ```
+## Linting
+# check lint error
+
+yarn lint
+
+# format with lint
+
+yarn format

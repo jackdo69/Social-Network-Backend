@@ -14,8 +14,10 @@ class CustomError extends Error {
 
 const handleError = (err: HttpError, res: Response) => {
   const { statusCode, message } = err;
+  console.log('Found the error');
+
   res.status(statusCode).json({
-    status: "error",
+    status: 'error',
     statusCode,
     message,
   });
