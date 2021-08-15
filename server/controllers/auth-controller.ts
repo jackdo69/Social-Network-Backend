@@ -13,8 +13,6 @@ const INDEX = process.env.NODE_ENV === 'dev' ? 'user' : 'user-test';
 
 const usernameExisted = async (username: string) => {
   const results = await esClient.searchBySingleField(INDEX, { field: 'username', phrase: username });
-  console.log('username', results);
-
   return !!results.length;
 };
 
@@ -58,8 +56,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
     const result = await esClient.searchBySingleField(INDEX, { field: 'username', phrase: username });
-    console.log(result);
-
     if (!result.length) return next(new CustomError(401, 'Invalid username or password!'));
     const existedUser = result[0]._source;
     if (!existedUser || existedUser.password !== password)

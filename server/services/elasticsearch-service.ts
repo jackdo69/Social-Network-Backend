@@ -11,8 +11,16 @@ const store = async (index: string, id: string, body: unknown) => {
   await client.index(doc);
 };
 
-const bulk = async (index: string, body: Array<unknown>) => {
-  const data = body.flatMap((doc) => [{ index: { _index: index } }, doc]);
+interface BulkUserI {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  image: string;
+  bio: string;
+}
+const bulk = async (index: string, body: Array<BulkUserI>) => {
+  const data = body.flatMap((doc) => [{ index: { _index: index, _id: doc.id } }, doc]);
   await client.bulk({ refresh: true, body: data });
 };
 
@@ -51,13 +59,15 @@ const updateById = async (index: string, id: string, doc: unknown) => {
   }
 };
 
-const searchByMultipleFields = async (index: string, body: { phrase: string; fields: Array<string> }) => {
-  const { fields, phrase } = body;
-  // eslint-disable-next-line
-  const queryFields = fields.map((field) => {
+const searchByMultipleFields = async (
+  index: string,
+  body: { fields: Array<{ filedName: string; fieldValue: string }> },
+) => {
+  const { fields } = body;
+  const queryFields = fields.map((item) => {
     return {
-      term: {
-        field: phrase,
+      match: {
+        [item.filedName]: item.fieldValue,
       },
     };
   });
@@ -75,6 +85,7 @@ const searchByMultipleFields = async (index: string, body: { phrase: string; fie
     const result: ApiResponse = await client.search(params);
     return result.body.hits.hits;
   } catch (err) {
+    console.log(err.meta.body.error);
     throw err;
   }
 };

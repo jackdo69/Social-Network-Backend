@@ -1,0 +1,57 @@
+[
+    {
+        "id": "p0001",
+        "title": "One dollar",
+        "content": "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one’s cheeks burned with the silent imputation of parsimony that such close dealing implied. ",
+        "user": {
+            "id": "u003",
+            "username": "alison_3353"
+        },
+        "createdAt": 1628438070318,
+        "image": "http://localhost:4000/images/pic1.png"
+    },
+    {
+        "id": "p0002",
+        "title": "The end",
+        "content": "All he could think about was how it would all end. There was still a bit of uncertainty in the equation, but the basics were there for anyone to see. No matter how much he tried to see the positive, it wasn't anywhere to be seen",
+        "user": {
+            "id": "u004",
+            "username": "melody_4498"
+        },
+        "createdAt": 1628438070318,
+        "image": "http://localhost:4000/images/pic2.png"
+    },
+    {
+        "id": "p0003",
+        "title": "The Angel",
+        "content": "She had been an angel for coming up on 10 years and in all that time nobody had told her this was possible. The fact that it could ever happen never even entered her mind. Yet there she stood, with the undeniable evidence sitting on the ground before her",
+        "user": {
+            "id": "u005",
+            "username": "tessa_2664"
+        },
+        "createdAt": 1628438070318,
+        "image": "http://localhost:4000/images/pic3.png"
+    },
+    {
+        "id": "p0004",
+        "title": "The Button",
+        "content": "He wondered as he clicked the generate button. Do they just write a random paragraph or do they get it somewhere? At that moment he read the random paragraph and realized it was about random paragraphs and his world would never be the same.",
+        "user": {
+            "id": "u006",
+            "username": "rihanna_457"
+        },
+        "createdAt": 1628438070318,
+        "image": "http://localhost:4000/images/pic4.png"
+    },
+    {
+        "id": "p0005",
+        "title": "The imagination",
+        "content": "He sat across from her trying to imagine it was the first time. It wasn't. Had it been a hundred? It quite possibly could have been. Two hundred? Probably not. His mind wandered until he caught himself and again tried to imagine it was the first time.",
+        "user": {
+            "id": "u007",
+            "username": "monica_243"
+        },
+        "createdAt": 1628438070318,
+        "image": "http://localhost:4000/images/pic5.png"
+    }
+]

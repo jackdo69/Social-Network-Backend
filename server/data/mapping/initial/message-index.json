@@ -1,0 +1,18 @@
+{
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text"
+            },
+            "createdAt": {
+                "type": "date"
+            },
+            "senderId": {
+                "type": "text"
+            },
+            "receiverId": {
+                "type": "text"
+            }
+        }
+    }
+}

@@ -54,13 +54,14 @@ const getFriendsSuggestions = async (req: Request, res: Response, next: NextFunc
       size: 20,
       from: 0,
       bool,
-      fields: ['username', 'image'],
+      fields: ['username', 'image', 'bio'],
     });
     const result = suggestFriends.map((f) => {
       return {
         id: f._id,
         username: f._source.username,
         image: f._source.image,
+        bio: f._source.bio,
       };
     });
     res.status(202).json(result);
