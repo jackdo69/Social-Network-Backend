@@ -1,13 +1,14 @@
 # Social Network Backend
 
-    Simple backend running for social-network-frontend project
+This is the backend for this project
 
+> [Social Network Frontend](https://github.com/jackdo69/Social-Network-Frontend)
 
-    This repository is for personaly learning, which is why the technologies
-    used in this repo is chosen without careful consideration
+This repository is for personaly learning, which is why the technologies
+used in this repo is chosen without careful consideration
 
-    Please read the TODO.md file for what features are included, what are
-    still need to fulfilled
+Please read the TODO.md file for what features are included, what are
+still need to fulfilled
 
 ## Prerequisites
 
