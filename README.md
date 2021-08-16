@@ -2,6 +2,13 @@
 
     Simple backend running for social-network-frontend project
 
+
+    This repository is for personaly learning, which is why the technologies
+    used in this repo is chosen without careful consideration
+
+    Please read the TODO.md file for what features are included, what are
+    still need to fulfilled
+
 ## Prerequisites
 
 - `node` and `npm` (e.g. using `nvm`)
@@ -56,7 +63,9 @@ npm start:test
 # run test in another terminal
 npm run test
 ```
+
 ## Linting
+
 # check lint error
 
 yarn lint
